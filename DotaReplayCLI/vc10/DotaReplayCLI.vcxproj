@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{24EA8AB3-E9CD-48C5-9D54-B18586DBADB4}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>DotaReplayCLI</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v100</PlatformToolset> <!-- VS2010 toolset -->
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\src;..\lib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\lib\zlib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>zlib.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\base\dictionary.cpp" />
+    <ClCompile Include="..\src\base\file.cpp" />
+    <ClCompile Include="..\src\base\gzmemory.cpp" />
+    <ClCompile Include="..\src\base\intdict.cpp" />
+    <ClCompile Include="..\src\base\mpqfile.cpp" />
+    <ClCompile Include="..\src\base\pool.cpp" />
+    <ClCompile Include="..\src\base\string.cpp" />
+    <ClCompile Include="..\src\base\utils.cpp" />
+    <ClCompile Include="..\src\base\version.cpp" />
+    <ClCompile Include="..\src\core\app.cpp" />
+    <ClCompile Include="..\src\core\main.cpp" />
+    <ClCompile Include="..\src\core\present.cpp" />
+    <ClCompile Include="..\src\core\registry.cpp" />
+    <ClCompile Include="..\src\dota\colors.cpp" />
+    <ClCompile Include="..\src\dota\dotadata.cpp" />
+    <ClCompile Include="..\src\replay\action.cpp" />
+    <ClCompile Include="..\src\replay\cache.cpp" />
+    <ClCompile Include="..\src\replay\hero.cpp" />
+    <ClCompile Include="..\src\replay\inventory.cpp" />
+    <ClCompile Include="..\src\replay\player.cpp" />
+    <ClCompile Include="..\src\replay\replay.cpp" />
+    <ClCompile Include="..\src\rmpq\explode.c" />
+    <ClCompile Include="..\src\rmpq\huffman.cpp" />
+    <ClCompile Include="..\src\rmpq\implode.c" />
+    <ClCompile Include="..\src\rmpq\mpqcompress.cpp" />
+    <ClCompile Include="..\src\rmpq\rmpq.cpp" />
+    <ClCompile Include="..\src\script\data.cpp" />
+    <ClCompile Include="..\src\script\scripteval.cpp" />
+    <ClCompile Include="..\src\script\scriptparser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\base\array.h" />
+    <ClInclude Include="..\src\base\dictionary.h" />
+    <ClInclude Include="..\src\base\file.h" />
+    <ClInclude Include="..\src\base\gzmemory.h" />
+    <ClInclude Include="..\src\base\intdict.h" />
+    <ClInclude Include="..\src\base\mpqfile.h" />
+    <ClInclude Include="..\src\base\object.h" />
+    <ClInclude Include="..\src\base\pool.h" />
+    <ClInclude Include="..\src\base\string.h" />
+    <ClInclude Include="..\src\base\types.h" />
+    <ClInclude Include="..\src\base\utils.h" />
+    <ClInclude Include="..\src\base\version.h" />
+    <ClInclude Include="..\src\core\app.h" />
+    <ClInclude Include="..\src\core\cfgitems.h" />
+    <ClInclude Include="..\src\core\present.h" />
+    <ClInclude Include="..\src\core\registry.h" />
+    <ClInclude Include="..\src\dota\colors.h" />
+    <ClInclude Include="..\src\dota\consts.h" />
+    <ClInclude Include="..\src\dota\dotadata.h" />
+    <ClInclude Include="..\src\replay\action.h" />
+    <ClInclude Include="..\src\replay\cache.h" />
+    <ClInclude Include="..\src\replay\consts.h" />
+    <ClInclude Include="..\src\replay\hero.h" />
+    <ClInclude Include="..\src\replay\inventory.h" />
+    <ClInclude Include="..\src\replay\message.h" />
+    <ClInclude Include="..\src\replay\player.h" />
+    <ClInclude Include="..\src\replay\replay.h" />
+    <ClInclude Include="..\src\rmpq\huffman.h" />
+    <ClInclude Include="..\src\rmpq\mpqcompress.h" />
+    <ClInclude Include="..\src\rmpq\mpqsync.h" />
+    <ClInclude Include="..\src\rmpq\pklib.h" />
+    <ClInclude Include="..\src\rmpq\rmpq.h" />
+    <ClInclude Include="..\src\script\data.h" />
+    <ClInclude Include="..\src\script\parser.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

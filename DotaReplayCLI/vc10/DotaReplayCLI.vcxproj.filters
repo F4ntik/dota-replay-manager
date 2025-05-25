@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{07DDCCC1-4740-46FB-94F2-7CEF730E0905}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{920E9E49-DDDE-41C3-8BC2-16251D181EEE}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{527DE7EA-149D-4C26-BFB4-3BF59CBE4371}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{1B7D69AF-10DC-48C9-BB98-A43E02443495}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\script">
+      <UniqueIdentifier>{60BB80E6-B997-41DF-A7D2-B44A07CE6F40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\replay">
+      <UniqueIdentifier>{826D16B9-DFA5-4C10-BCA5-3D793726BE4E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dota">
+      <UniqueIdentifier>{A162F2DB-E495-4A44-97A6-3AA78A7748F5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\base">
+      <UniqueIdentifier>{4CCAD902-CC1F-4A7F-BCBD-A68285A9BAD1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rmpq">
+      <UniqueIdentifier>{C858F48B-880D-4F5C-837C-BDDD0DFC95B7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{30C0CCDE-49F9-418E-A55D-85F87D5D4BB0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\script">
+      <UniqueIdentifier>{24EEE9AD-EC70-4911-976F-104E45F892A2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\replay">
+      <UniqueIdentifier>{BD7251C8-5938-431F-81AC-4769E110FD5A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\dota">
+      <UniqueIdentifier>{1220CD44-5D3D-4538-B748-A0375065A668}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\base">
+      <UniqueIdentifier>{082D457D-B0A0-46E4-A68A-D960786A7D2D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rmpq">
+      <UniqueIdentifier>{E095D2D3-E356-4C51-A5FF-98FC9A6020C6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+
+  <!-- Source Files -->
+  <ItemGroup>
+    <ClCompile Include="..\src\base\dictionary.cpp">
+      <Filter>Source Files\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\base\file.cpp">
+      <Filter>Source Files\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\base\gzmemory.cpp">
+      <Filter>Source Files\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\base\intdict.cpp">
+      <Filter>Source Files\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\base\mpqfile.cpp">
+      <Filter>Source Files\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\base\pool.cpp">
+      <Filter>Source Files\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\base\string.cpp">
+      <Filter>Source Files\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\base\utils.cpp">
+      <Filter>Source Files\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\base\version.cpp">
+      <Filter>Source Files\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\app.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\main.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\present.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\registry.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\dota\colors.cpp">
+      <Filter>Source Files\dota</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\dota\dotadata.cpp">
+      <Filter>Source Files\dota</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\replay\action.cpp">
+      <Filter>Source Files\replay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\replay\cache.cpp">
+      <Filter>Source Files\replay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\replay\hero.cpp">
+      <Filter>Source Files\replay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\replay\inventory.cpp">
+      <Filter>Source Files\replay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\replay\player.cpp">
+      <Filter>Source Files\replay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\replay\replay.cpp">
+      <Filter>Source Files\replay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rmpq\explode.c">
+      <Filter>Source Files\rmpq</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rmpq\huffman.cpp">
+      <Filter>Source Files\rmpq</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rmpq\implode.c">
+      <Filter>Source Files\rmpq</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rmpq\mpqcompress.cpp">
+      <Filter>Source Files\rmpq</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rmpq\rmpq.cpp">
+      <Filter>Source Files\rmpq</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\script\data.cpp">
+      <Filter>Source Files\script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\script\scripteval.cpp">
+      <Filter>Source Files\script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\script\scriptparser.cpp">
+      <Filter>Source Files\script</Filter>
+    </ClCompile>
+  </ItemGroup>
+
+  <!-- Header Files -->
+  <ItemGroup>
+    <ClInclude Include="..\src\base\array.h">
+      <Filter>Header Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\base\dictionary.h">
+      <Filter>Header Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\base\file.h">
+      <Filter>Header Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\base\gzmemory.h">
+      <Filter>Header Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\base\intdict.h">
+      <Filter>Header Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\base\mpqfile.h">
+      <Filter>Header Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\base\object.h">
+      <Filter>Header Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\base\pool.h">
+      <Filter>Header Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\base\string.h">
+      <Filter>Header Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\base\types.h">
+      <Filter>Header Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\base\utils.h">
+      <Filter>Header Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\base\version.h">
+      <Filter>Header Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\app.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\cfgitems.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\present.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\registry.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\dota\colors.h">
+      <Filter>Header Files\dota</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\dota\consts.h">
+      <Filter>Header Files\dota</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\dota\dotadata.h">
+      <Filter>Header Files\dota</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\replay\action.h">
+      <Filter>Header Files\replay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\replay\cache.h">
+      <Filter>Header Files\replay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\replay\consts.h">
+      <Filter>Header Files\replay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\replay\hero.h">
+      <Filter>Header Files\replay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\replay\inventory.h">
+      <Filter>Header Files\replay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\replay\message.h">
+      <Filter>Header Files\replay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\replay\player.h">
+      <Filter>Header Files\replay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\replay\replay.h">
+      <Filter>Header Files\replay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rmpq\huffman.h">
+      <Filter>Header Files\rmpq</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rmpq\mpqcompress.h">
+      <Filter>Header Files\rmpq</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rmpq\mpqsync.h">
+      <Filter>Header Files\rmpq</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rmpq\pklib.h">
+      <Filter>Header Files\rmpq</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rmpq\rmpq.h">
+      <Filter>Header Files\rmpq</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\script\data.h">
+      <Filter>Header Files\script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\script\parser.h">
+      <Filter>Header Files\script</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

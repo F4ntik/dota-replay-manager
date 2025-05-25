@@ -1,0 +1,11 @@
+Date: {replay.time}
+Game mode: {game.mode}
+Game length: {game.length}
+Players: {game.players.ratio}
+Game score: {game.kills}
+Winner: {game.winner}
+
+{for team in teams}{team.name}:
+{for lane in team.lanes} {lane.name}
+{for player in lane.players}  {align left 40}{player.name} - {player.hero}, level {player.level}{endalign} K/D/A: {align left 10}{player.stats.herokills}/{player.stats.deaths}/{player.stats.assists}{endalign} C/D/N: {align left 12}{player.stats.creepkills}/{player.stats.creepdenies}/{player.stats.neutralkills}{endalign} {align right 6} gold{endalign} {align right 3} apm{endalign} left: {align left 6}{player.left}{endalign}items: [{for item in player.inventory}{if not item.first}, {endif}{item.name}{endfor}]
+{endfor}{endfor}{endfor}
