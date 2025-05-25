@@ -242,6 +242,7 @@ def read_replay_file(filepath: str) -> Optional[ReplayData]:
             num_data_blocks = struct.unpack('<I', f.read(4))[0]
             
             game_identifier = f.read(4)
+            print(f"DEBUG: Прочитан идентификатор игры: {game_identifier} ({game_identifier.decode('ascii', errors='ignore')})")
             if game_identifier not in [GAME_IDENTIFIER_W3XP, GAME_IDENTIFIER_PX3W]:
                 raise InvalidReplayFileError(f"Неверный идентификатор игры: {game_identifier.decode('ascii', errors='ignore')}. Ожидались W3XP или PX3W.")
             
@@ -300,38 +301,18 @@ def read_replay_file(filepath: str) -> Optional[ReplayData]:
                 block_data_to_write = b''
                 if comp_size == decomp_size: # Data is not compressed
                     block_data_to_write = compressed_block_data
+                    # print(f"DEBUG: Блок {i+1}: данные не сжаты (comp_size == decomp_size == {comp_size}). Копируем как есть.")
                 else: # Data is compressed (comp_size != decomp_size)
-                    e_obj, e_std, e_raw = None, None, None # Initialize error variables
+                    # print(f"DEBUG: Блок {i+1}: попытка декомпрессии (comp_size={comp_size}, decomp_size={decomp_size}).")
                     try:
-                        # Attempt 1: decompressobj()
-                        d_obj = zlib.decompressobj()
-                        block_data_to_write = d_obj.decompress(compressed_block_data)
-                        block_data_to_write += d_obj.flush()
-                    except zlib.error as err_obj:
-                        e_obj = err_obj
-                        try:
-                            # Attempt 2: standard zlib.decompress()
-                            # print(f"Информация: Блок {i+1}: decompressobj не удался ({e_obj}), пробую standard decompress...")
-                            block_data_to_write = zlib.decompress(compressed_block_data)
-                        except zlib.error as err_std:
-                            e_std = err_std
-                            try:
-                                # Attempt 3: raw deflate
-                                # print(f"Информация: Блок {i+1}: standard decompress не удался ({e_std}), пробую raw deflate...")
-                                block_data_to_write = zlib.decompress(compressed_block_data, wbits=-zlib.MAX_WBITS)
-                            except zlib.error as err_raw:
-                                e_raw = err_raw
-                                # All attempts failed
-                                error_message_prefix = f"Блок {i+1}"
-                                if header_version != 0x01: # Add header version info if it's an old replay
-                                    error_message_prefix += f" (заголовок вер. {header_version:#02x})"
-                                
-                                raise ReplayParsingError(
-                                    f"{error_message_prefix}: не удалось декомпрессовать всеми методами. "
-                                    f"decompressobj: {e_obj}. "
-                                    f"standard: {e_std}. "
-                                    f"raw deflate: {e_raw}"
-                                )
+                        block_data_to_write = zlib.decompress(compressed_block_data)
+                    except zlib.error as e:
+                        error_message_prefix = f"Блок {i+1}"
+                        if header_version != 0x01: # Add header version info if it's an old replay
+                            error_message_prefix += f" (заголовок вер. {header_version:#02x})"
+                        raise ReplayParsingError(
+                            f"{error_message_prefix}: ошибка zlib.decompress: {e} (comp_size={comp_size}, decomp_size={decomp_size}, read_data_len={len(compressed_block_data)})"
+                        )
                 
                 # Validate size after decompression or copying
                 if len(block_data_to_write) != decomp_size:
@@ -603,9 +584,15 @@ def read_replay_file(filepath: str) -> Optional[ReplayData]:
                             if action_id_raw == 0x10: # ACTION_SELECT_UNIT_GROUP (UseAbility/Build)
                                 action_type_str = "UseAbilityBuild"
                                 action_params['select_mode'] = action_stream.read(1)[0]
-                                action_params['group_number'] = action_stream.read(1)[0] 
-                                action_params['ability_item_id1'] = _parse_object_id(action_stream)
-                                action_params['ability_item_id2'] = _parse_object_id(action_stream)
+                                action_params['group_number'] = action_stream.read(1)[0]
+                                object_id_str = _parse_object_id(action_stream)
+                                if object_id_str.startswith('A'):
+                                    action_params['ability_id'] = object_id_str
+                                    action_params['item_id'] = None
+                                else:
+                                    action_params['item_id'] = object_id_str
+                                    action_params['ability_id'] = None
+                                action_params['ability_item_id2'] = _parse_object_id(action_stream) # This is likely flags or secondary ID
                             elif action_id_raw == 0x11: # ACTION_ASSIGN_GROUP_HOTKEY
                                 action_type_str = "AssignGroupHotkey"
                                 action_params['group_number'] = action_stream.read(1)[0]
@@ -643,8 +630,14 @@ def read_replay_file(filepath: str) -> Optional[ReplayData]:
                             elif action_id_raw == 0x19: # ACTION_USE_ABILITY_ITEM
                                 action_type_str = "UseAbilityItem"
                                 action_params['ability_flags'] = struct.unpack('<H', action_stream.read(2))[0]
-                                action_params['item_ability_id1'] = _parse_object_id(action_stream)
-                                action_params['item_ability_id2'] = _parse_object_id(action_stream)
+                                object_id_str = _parse_object_id(action_stream)
+                                if object_id_str.startswith('A'):
+                                    action_params['ability_id'] = object_id_str
+                                    action_params['item_id'] = None
+                                else:
+                                    action_params['item_id'] = object_id_str
+                                    action_params['ability_id'] = None
+                                action_params['item_ability_id2'] = _parse_object_id(action_stream) # This is likely flags or secondary ID
                                 _ = action_stream.read(4) 
                                 action_params['target_x'] = struct.unpack('<i', action_stream.read(4))[0]
                                 action_params['target_y'] = struct.unpack('<i', action_stream.read(4))[0]
@@ -687,12 +680,25 @@ def read_replay_file(filepath: str) -> Optional[ReplayData]:
                                 remaining_in_action = cmd_data_len - action_stream.tell()
                                 if remaining_in_action > 0: action_stream.read(remaining_in_action)
                                 elif remaining_in_action < 0: raise ReplayParsingError(f"Переполнение ActionID {action_id_raw:#02x}.")
+                            
+                            # Determine ability_id_str for GameAction
+                            final_ability_id_str = None
+                            if action_type_str in ["ChooseLevel1Hero", "ChooseHero"]:
+                                final_ability_id_str = action_params.get('hero_id')
+                            else:
+                                final_ability_id_str = action_params.get('ability_id')
 
+                            # Determine item_id_str for GameAction
+                            # Prioritize 'item_id' (from 0x10, 0x19), then 'item_id1' (from 0x1D, 0x1E)
+                            final_item_id_str = action_params.get('item_id')
+                            if final_item_id_str is None: # If 'item_id' is None (e.g. for abilities, or if not set)
+                                final_item_id_str = action_params.get('item_id1') # Fallback to 'item_id1'
+                                
                             ga = GameAction(
                                 player_id=cmd_player_id, timestamp_ms=current_time_ms,
                                 timestamp_str=format_ms_to_hhmmss(current_time_ms), action_type=action_type_str,
-                                ability_id_str=action_params.get('item_ability_id1') or action_params.get('ability_item_id1'),
-                                item_id_str=action_params.get('item_id1'),
+                                ability_id_str=final_ability_id_str,
+                                item_id_str=final_item_id_str,
                                 target_unit_id_str=action_params.get('target_id1'),
                                 x_coord=action_params.get('pos_x') or action_params.get('target_x'),
                                 y_coord=action_params.get('pos_y') or action_params.get('target_y'),

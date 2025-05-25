@@ -17,22 +17,60 @@ ACTION_TYPE_LEARN_SKILL = "LearnSkill" # Гипотетический тип, е
 
 # Заглушки для справочников ID (в будущем их нужно будет заполнить)
 HERO_ID_TO_NAME: Dict[str, str] = {
-    "hfoo": "Footman", # Пример
-    "earc": "Archer", # Пример
-    "ofoh": "Hero Farseer", # Пример Farseer ID из теста
-    "crae": "Hero Crypt Lord", # Пример Crypt Lord ID из теста
+    "Hpal": "Omniknight", 
+    "Hmgd": "Pit Lord",   # Pit Lord (часто 'Nplt' в DotA)
+    "Hmkg": "Mountain King", # Используется для Storm, Earth, Fire у Brewmaster, не сам Brewmaster
+    "Ofar": "Far Seer",    # Может быть Chen или Thrall в стандартном WC3, в DotA Chen - 'Ofar'
+    "Oshd": "Shadow Hunter", # Rhasta (Shadow Shaman)
+    "Naga": "Naga Siren", # Предположительный ID для Naga Siren
+    "E001": "Lina Inverse", # Пример кастомного ID из DotA (может отличаться)
+    "H001": "Sven", # Пример
+    "U001": "Mortred", # Phantom Assassin
+    "O001": "Vol'jin", # Witch Doctor
+     # Пример Farseer ID из теста replay_reader
+    "ofoh": "Test Hero Farseer",
+     # Пример Crypt Lord ID из теста replay_reader
+    "crae": "Test Hero Crypt Lord",
 }
 ABILITY_ID_TO_NAME: Dict[str, str] = {
-    "A001": "Some Skill Lvl 1", # Пример
-    "A002": "Some Skill Lvl 2", # Пример
+    "AHfs": "Forked Lightning (Storm Bolt)", # Storm Bolt для Mountain King (Storm Panda)
+    "AHbn": "Banish", 
+    "AEnc": "Ensnare (Naga Siren)", 
+    "A001": "Generic Skill Name 1", # Общий пример
+    "A002": "Generic Skill Name 2", # Общий пример
+    # Добавь несколько способностей DotA
+    "ANhs": "Healing Salve (Способность)", # Пример для предмета-способности
+    "ANab": "Absorb Mana (Способность)", # Пример для предмета-способности
 }
 ITEM_ID_TO_NAME: Dict[str, str] = {
-    "ratl": "Robe of the Magi", # Пример
-    "pms": "Poor Man's Shield", # Пример
+    "ward": "Observer Ward",
+    "crys": "Crystalys",
+    "bkb": "Black King Bar",
+    "boot": "Boots of Speed",
+    "ogax": "Ogre Axe", 
+    "sent": "Sentry Wards", 
+    "ratl": "Robe of the Magi", # Из старых примеров
+    "pms": "Poor Man's Shield", # Из старых примеров
+    "tpsk": "Town Portal Scroll", # Часто 'tpsc'
+    "clrt": "Clarity Potion", # Часто 'poti'
+    "blink": "Blink Dagger (Kelen's Dagger)",
+    "branches": "Ironwood Branch",
+    "circlet": "Circlet of Nobility",
 }
 ITEM_ID_TO_COST: Dict[str, int] = {
-    "ratl": 450, # Пример
-    "pms": 550,  # Пример
+    "ward": 75,
+    "crys": 2150,
+    "bkb": 3900,
+    "boot": 450,
+    "ogax": 1000,
+    "sent": 200,
+    "ratl": 450,
+    "pms": 550, 
+    "tpsk": 100,
+    "clrt": 50,
+    "blink": 2250,
+    "branches": 50,
+    "circlet": 165,
 }
 # Список ID расходуемых предметов (для упрощенного управления инвентарем)
 CONSUMABLE_ITEM_IDS: List[str] = ["tpsc", "poti", "ward"] # Scroll, Clarity, Observer/Sentry Ward
@@ -79,10 +117,11 @@ def aggregate_data_from_actions(replay_data: ReplayData) -> None:
         # --- Обработка выбора героя ---
         if action.action_type == ACTION_TYPE_CHOOSE_HERO or \
            action.action_type == ACTION_TYPE_CHOOSE_LEVEL1_HERO:
-            hero_id = action.ability_id_str or action.item_id_str # В replay_reader.py мы кладем ID героя сюда
-            if hero_id:
-                player.hero_id_str = hero_id
-                player.hero_name = HERO_ID_TO_NAME.get(hero_id, hero_id)
+            # В replay_reader.py ID героя для этих действий помещается в GameAction.ability_id_str
+            actual_hero_id_from_action = action.ability_id_str 
+            if actual_hero_id_from_action:
+                player.hero_id_str = actual_hero_id_from_action
+                player.hero_name = HERO_ID_TO_NAME.get(actual_hero_id_from_action, actual_hero_id_from_action)
 
         # --- Обработка изучения способностей ---
         # Предполагаем, что replay_reader.py может выставлять action_type = ACTION_TYPE_LEARN_SKILL
@@ -134,9 +173,10 @@ def aggregate_data_from_actions(replay_data: ReplayData) -> None:
 
 
         # --- Обработка покупки/получения предметов ---
-        # Предполагаем, что покупка предмета также может быть ACTION_TYPE_USE_ABILITY_ITEM,
-        # где item_id_str содержит ID купленного предмета.
-        if action.action_type == ACTION_TYPE_USE_ABILITY_ITEM and action.item_id_str:
+        # Используем action.item_id_str, если он был установлен в replay_reader.py
+        # для действий типа "UseAbilityItem" (0x19), "UseAbilityBuild" (0x10), "GiveItem" (0x1D).
+        if action.item_id_str and \
+           action.action_type in [ACTION_TYPE_USE_ABILITY_ITEM, "UseAbilityBuild", "GiveItem", "UnitDropItem"]: # UnitDropItem добавлен для полноты, хотя может не быть "покупкой"
             # ID предметов могут быть разными (ratl, pms, ward, blink, etc.)
             item_id = action.item_id_str
             item_name = ITEM_ID_TO_NAME.get(item_id, item_id)

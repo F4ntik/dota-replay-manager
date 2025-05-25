@@ -36,6 +36,7 @@ def main():
     print(f"Обработка файла реплея: {args.replay_file}")
     replay_data = None # Инициализируем replay_data как None
     try:
+        print(f"DEBUG: Попытка прочитать файл: {args.replay_file}")
         replay_data = read_replay_file(args.replay_file)
     except FileNotFoundError:
         print(f"Ошибка: Файл реплея не найден по пути '{args.replay_file}'.")
